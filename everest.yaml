@@ -1,5 +1,5 @@
 - Name: APCeleste
-  Version: 0.1.0
+  Version: 1.0.0
   DLL: bin/APCeleste.dll
   Dependencies:
     - Name: Everest
