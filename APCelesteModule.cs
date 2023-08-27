@@ -1,7 +1,6 @@
 ﻿using System;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
-using MonoMod.Cil;
 
 namespace Celeste.Mod.APCeleste
 {
@@ -32,8 +31,8 @@ namespace Celeste.Mod.APCeleste
         {
             if (currentAPSession == null)
             {
-                currentAPSession = ArchipelagoSessionFactory.CreateSession("archipelago.gg", 65151);
-                currentAPSession.TryConnectAndLogin("Celeste", "Test567", ItemsHandlingFlags.AllItems, new Version(0, 4, 0));
+                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Settings.ArchipelagoPort);
+                currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems);
             }
         }
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net452</TargetFramework>
@@ -40,6 +40,12 @@
         </Reference>
         <Reference Include="$(CelestePrefix)\MMHOOK_Celeste.dll">
             <Private>false</Private>
+        </Reference>
+        <Reference Include="Archipelago.MultiClient.Net">
+          <HintPath>bin\Archipelago.MultiClient.Net.dll</HintPath>
+        </Reference>
+        <Reference Include="websocket-sharp">
+          <HintPath>bin\websocket-sharp.dll</HintPath>
         </Reference>
     </ItemGroup>
 
