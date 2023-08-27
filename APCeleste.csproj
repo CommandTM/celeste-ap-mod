@@ -31,6 +31,7 @@
     </ItemDefinitionGroup>
 
     <ItemGroup>
+        <PackageReference Include="Archipelago.MultiClient.Net" Version="5.0.6" />
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.01.04.03" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
