@@ -1,7 +1,7 @@
-using Microsoft.Xna.Framework.Input;
-
-namespace Celeste.Mod.APCeleste {
-    public class APCelesteModuleSettings : EverestModuleSettings {
+namespace Celeste.Mod.APCeleste
+{
+    public class APCelesteModuleSettings : EverestModuleSettings
+    {
         // IP Address Setting
         [SettingMaxLength(40)]
         public string ArchipelagoAddress { get; set; } = "archipelago.gg";

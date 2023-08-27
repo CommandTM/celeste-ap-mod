@@ -1,20 +1,22 @@
 ﻿using System;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
-using Microsoft.Xna.Framework;
 using MonoMod.Cil;
 
-namespace Celeste.Mod.APCeleste {
-    public class APCelesteModule : EverestModule {
+namespace Celeste.Mod.APCeleste
+{
+    public class APCelesteModule : EverestModule
+    {
         public static APCelesteModule Instance { get; private set; }
 
         public override Type SettingsType => typeof(APCelesteModuleSettings);
-        public static APCelesteModuleSettings Settings => (APCelesteModuleSettings) Instance._Settings;
+        public static APCelesteModuleSettings Settings => (APCelesteModuleSettings)Instance._Settings;
 
         public override Type SessionType => typeof(APCelesteModuleSession);
-        public static APCelesteModuleSession Session => (APCelesteModuleSession) Instance._Session;
+        public static APCelesteModuleSession Session => (APCelesteModuleSession)Instance._Session;
 
-        public APCelesteModule() {
+        public APCelesteModule()
+        {
             Instance = this;
 #if DEBUG
             // debug builds use verbose logging
@@ -26,7 +28,8 @@ namespace Celeste.Mod.APCeleste {
         }
         private ArchipelagoSession currentAPSession;
 
-        public override void Load() {
+        public override void Load()
+        {
             if (currentAPSession == null)
             {
                 currentAPSession = ArchipelagoSessionFactory.CreateSession("archipelago.gg", 65151);
@@ -34,7 +37,8 @@ namespace Celeste.Mod.APCeleste {
             }
         }
 
-        public override void Unload() {
+        public override void Unload()
+        {
             // TODO: unapply any hooks applied in Load()
         }
     }
