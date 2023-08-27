@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net452</TargetFramework>
@@ -31,7 +31,10 @@
     </ItemDefinitionGroup>
 
     <ItemGroup>
-        <PackageReference Include="Archipelago.MultiClient.Net" Version="5.0.6" />
+        <PackageReference Include="Archipelago.MultiClient.Net" Version="5.0.6">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.01.04.03" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 

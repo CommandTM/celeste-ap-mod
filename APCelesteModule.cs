@@ -1,5 +1,8 @@
 ﻿using System;
+using Archipelago.MultiClient.Net;
+using Archipelago.MultiClient.Net.Enums;
 using Microsoft.Xna.Framework;
+using MonoMod.Cil;
 
 namespace Celeste.Mod.APCeleste {
     public class APCelesteModule : EverestModule {
@@ -21,9 +24,14 @@ namespace Celeste.Mod.APCeleste {
             Logger.SetLogLevel(nameof(APCelesteModule), LogLevel.Info);
 #endif
         }
+        private ArchipelagoSession currentAPSession;
 
         public override void Load() {
-            // TODO: apply any hooks that should always be active
+            if (currentAPSession == null)
+            {
+                currentAPSession = ArchipelagoSessionFactory.CreateSession("archipelago.gg", 65151);
+                currentAPSession.TryConnectAndLogin("Celeste", "Test567", ItemsHandlingFlags.AllItems, new Version(0, 4, 0));
+            }
         }
 
         public override void Unload() {
