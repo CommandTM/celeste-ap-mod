@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
 
@@ -39,7 +39,7 @@ namespace Celeste.Mod.APCeleste
                 {
                     APpass = Settings.ArchipelagoPassword;
                 }
-                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Settings.ArchipelagoPort);
+                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, ToInt32(Settings.ArchipelagoPort));
                 currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
             }
         }
