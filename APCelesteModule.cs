@@ -26,13 +26,21 @@ namespace Celeste.Mod.APCeleste
 #endif
         }
         private ArchipelagoSession currentAPSession;
+        private string APpass;
 
         public override void Load()
         {
             if (currentAPSession == null)
             {
+                if (Settings.ArchipelagoPasswordToggle == false)
+                {
+                    APpass = null;
+                } else
+                {
+                    APpass = Settings.ArchipelagoPassword;
+                }
                 currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Settings.ArchipelagoPort);
-                currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems);
+                currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
             }
         }
 

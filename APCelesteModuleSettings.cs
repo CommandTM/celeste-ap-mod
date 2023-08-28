@@ -15,6 +15,9 @@ namespace Celeste.Mod.APCeleste
         [SettingMaxLength(16)]
         public string ArchipelagoSlot { get; set; } = "Player";
 
+        // Confirm That Password Is Wanted
+        public bool ArchipelagoPasswordToggle { get; set; } = false;
+
         // Password Setting
         [SettingMaxLength(40)]
         public string ArchipelagoPassword { get; set; } = null;
