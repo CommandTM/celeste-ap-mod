@@ -7,9 +7,8 @@ namespace Celeste.Mod.APCeleste
         public string ArchipelagoAddress { get; set; } = "archipelago.gg";
 
         // Port Setting
-        [SettingRange(10000, 99999)]
-        [SettingInGame(false)]
-        public int ArchipelagoPort { get; set; } = 38281;
+        [SettingMaxLength(5)]
+        public string ArchipelagoPort { get; set; } = "38281";
 
         // Slot Setting
         [SettingMaxLength(16)]
