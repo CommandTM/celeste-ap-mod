@@ -1,8 +1,6 @@
-﻿using System;
-using System.CodeDom;
+using System;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
-using MonoMod.Utils;
 
 namespace Celeste.Mod.APCeleste
 {
@@ -29,7 +27,6 @@ namespace Celeste.Mod.APCeleste
         }
         private ArchipelagoSession currentAPSession;
         private string APpass;
-        private double apID;
 
         public override void Load()
         {
@@ -42,17 +39,9 @@ namespace Celeste.Mod.APCeleste
                 {
                     APpass = Settings.ArchipelagoPassword;
                 }
-                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Settings.ArchipelagoPort);
+                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, ToInt32(Settings.ArchipelagoPort));
                 currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
             }
-            On.Celeste.Strawberry.OnCollect += apSendItem;
-        }
-
-        private void apSendItem(On.Celeste.Strawberry.orig_OnCollect orig, Strawberry self)
-        {
-            apID = new APCelesteIDSheet().BerryIDToWorldID[self.ID];
-            currentAPSession.Locations.CompleteLocationChecks();
-            orig(self);
         }
 
         public override void Unload()
