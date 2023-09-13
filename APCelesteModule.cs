@@ -1,4 +1,5 @@
 using System;
+using System.Drawing.Text;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
 
@@ -27,6 +28,7 @@ namespace Celeste.Mod.APCeleste
         }
         private ArchipelagoSession currentAPSession;
         private string APpass;
+        private int apID;
 
         public override void Load()
         {
@@ -39,9 +41,17 @@ namespace Celeste.Mod.APCeleste
                 {
                     APpass = Settings.ArchipelagoPassword;
                 }
-                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, ToInt32(Settings.ArchipelagoPort));
+                currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Int32.Parse(Settings.ArchipelagoPort)); 
                 currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
-            }
+            } // Connects game to AP
+            On.Celeste.Strawberry.OnCollect += apBerryCollect; // Load AP Berry collect ON hook
+        }
+
+        private void apBerryCollect(On.Celeste.Strawberry.orig_OnCollect orig, Strawberry self) //Intercepting berry collect code to add AP location send
+        {
+            orig(self); // Original collect code runs first
+            apID = new APCelesteIDSheet().BerryIDToWorldID[self.ID.ToString()]; // Translate Berry ID to Ap ID
+            currentAPSession.Locations.CompleteLocationChecks(apID); // Sends location of Berry
         }
 
         public override void Unload()
