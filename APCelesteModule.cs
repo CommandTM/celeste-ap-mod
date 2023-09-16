@@ -32,6 +32,9 @@ namespace Celeste.Mod.APCeleste
 
         public override void Load()
         {
+            /*Celeste.Instance.Components.Add(new MessageDisplay(Celeste.Instance));
+            MessageDisplay.instance.AddMessage("Text display succesfully initialized");
+            MessageDisplay.instance.AddMessage("Test display system written by \"bessnation\" on Discord");*/
             if (currentAPSession == null)
             {
                 if (Settings.ArchipelagoPasswordToggle == false)
@@ -44,6 +47,7 @@ namespace Celeste.Mod.APCeleste
                 currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Int32.Parse(Settings.ArchipelagoPort)); 
                 currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
             } // Connects game to AP
+            /*MessageDisplay.instance.AddMessage("Sucessfully connected to slot "+ currentAPSession.ConnectionInfo.Slot);*/
             On.Celeste.Strawberry.OnCollect += apBerryCollect; // Load AP Berry collect ON hook
         }
 
