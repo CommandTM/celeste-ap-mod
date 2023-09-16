@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Celeste.Mod.APCeleste;
 
-// Written by beesnation
+// Written by BeesNation on Discord
 public class MessageDisplay : DrawableGameComponent
 {
     public static MessageDisplay instance { get; private set; }
@@ -29,6 +29,9 @@ public class MessageDisplay : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
+        if (Dialog.Language is null)
+            return;
+     
         if (_timeRemaining <= 0)
         {
             if (messageQueue.Count == 0)
@@ -48,7 +51,9 @@ public class MessageDisplay : DrawableGameComponent
     {
         if (string.IsNullOrEmpty(_text))
             return;
-
+        if (Dialog.Language is null)
+            return;
+        
         // I took these settings from celestenet code, they're probably fine
         Monocle.Draw.SpriteBatch.Begin(
             SpriteSortMode.Deferred,
@@ -72,6 +77,7 @@ public class MessageDisplay : DrawableGameComponent
             Color.White * opacity,
             3f,
             Color.Black * opacity);
+
         Monocle.Draw.SpriteBatch.End();
     }
 }

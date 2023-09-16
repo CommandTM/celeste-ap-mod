@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace Celeste.Mod.APCeleste
     public class APCelesteIDSheet
     {
         public Dictionary<string,int> BerryIDToWorldID { get; }
+        public Dictionary<int, int> CassetteIDToWorldID { get; }
+        public Dictionary<string, int> HeartIDToWorldID { get; }
 
         public APCelesteIDSheet()
         {
@@ -195,6 +198,28 @@ namespace Celeste.Mod.APCeleste
                 {"g-01:279", 69000186},
                 {"g-01:342", 69000187},
                 {"g-03:1504", 69000188},
+            };
+
+            CassetteIDToWorldID = new Dictionary<int, int>
+            {
+                {1, 69000020},
+                {2, 69000031},
+                {3, 69000064},
+                {4, 69000077},
+                {5, 69000123},
+                {6, 69000133},
+                {7, 69000163}
+            };
+
+            HeartIDToWorldID = new Dictionary<string, int>
+            {
+                {"fc", 69000021},
+                {"os", 69000041},
+                {"cr", 69000068},
+                {"cs", 69000099},
+                {"t", 69000132},
+                {"tf", 69000134},
+                {"ts", 69000189},
             };
         }
     }

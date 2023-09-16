@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
 using System.Drawing.Text;
+using System.Linq;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Models;
+using Archipelago.MultiClient.Net.Packets;
 
 namespace Celeste.Mod.APCeleste
 {
@@ -32,9 +36,10 @@ namespace Celeste.Mod.APCeleste
 
         public override void Load()
         {
-            /*Celeste.Instance.Components.Add(new MessageDisplay(Celeste.Instance));
-            MessageDisplay.instance.AddMessage("Text display succesfully initialized");
-            MessageDisplay.instance.AddMessage("Test display system written by \"bessnation\" on Discord");*/
+            Celeste.Instance.Components.Add(new MessageDisplay(Celeste.Instance));
+            MessageDisplay.instance.AddMessage("Test display system written by \"bessnation\" on Discord");
+
+            MessageDisplay.instance.AddMessage("Attempting connection to " + Settings.ArchipelagoSlot + " at " + Settings.ArchipelagoAddress + ":" + Settings.ArchipelagoPort);
             if (currentAPSession == null)
             {
                 if (Settings.ArchipelagoPasswordToggle == false)
@@ -45,10 +50,39 @@ namespace Celeste.Mod.APCeleste
                     APpass = Settings.ArchipelagoPassword;
                 }
                 currentAPSession = ArchipelagoSessionFactory.CreateSession(Settings.ArchipelagoAddress, Int32.Parse(Settings.ArchipelagoPort)); 
-                currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 0), ItemsHandlingFlags.AllItems, null, null, APpass);
+                currentAPSession.TryConnectAndLogin("Celeste", Settings.ArchipelagoSlot, new Version(0, 4, 2), ItemsHandlingFlags.AllItems, null, null, APpass);
             } // Connects game to AP
-            /*MessageDisplay.instance.AddMessage("Sucessfully connected to slot "+ currentAPSession.ConnectionInfo.Slot);*/
+
+            if (currentAPSession.ConnectionInfo.Slot == -1)
+            {
+                MessageDisplay.instance.AddMessage("Connection failed: please check settings");
+            } else
+            {
+                MessageDisplay.instance.AddMessage("Connected in slot " + currentAPSession.ConnectionInfo.Slot);
+            }
+
             On.Celeste.Strawberry.OnCollect += apBerryCollect; // Load AP Berry collect ON hook
+            On.Celeste.Cassette.CollectRoutine += apCassetteCollect;
+            On.Celeste.HeartGem.CollectRoutine += apHeartGemCollect;
+        }
+
+        private IEnumerator apHeartGemCollect(On.Celeste.HeartGem.orig_CollectRoutine orig, HeartGem self, Player player)
+        {
+            Level level = self.Scene as Level;
+            AreaKey area = level.Session.Area;
+            apID = new APCelesteIDSheet().HeartIDToWorldID[AreaData.Get(level).Mode[(int)area.Mode].PoemID];
+            currentAPSession.Locations.CompleteLocationChecks(apID);
+            MessageDisplay.instance.AddMessage("Sent item at " + currentAPSession.Locations.GetLocationNameFromId(apID));
+            return orig(self, player);
+        }
+
+        private IEnumerator apCassetteCollect(On.Celeste.Cassette.orig_CollectRoutine orig, Cassette self, Player player)
+        {
+            Level level = self.Scene as Level;
+            apID = new APCelesteIDSheet().CassetteIDToWorldID[level.Session.Area.ID];
+            currentAPSession.Locations.CompleteLocationChecks(apID);
+            MessageDisplay.instance.AddMessage("Sent item at " + currentAPSession.Locations.GetLocationNameFromId(apID));
+            return orig(self, player);
         }
 
         private void apBerryCollect(On.Celeste.Strawberry.orig_OnCollect orig, Strawberry self) //Intercepting berry collect code to add AP location send
@@ -56,6 +90,7 @@ namespace Celeste.Mod.APCeleste
             orig(self); // Original collect code runs first
             apID = new APCelesteIDSheet().BerryIDToWorldID[self.ID.ToString()]; // Translate Berry ID to Ap ID
             currentAPSession.Locations.CompleteLocationChecks(apID); // Sends location of Berry
+            MessageDisplay.instance.AddMessage("Sent item at " + currentAPSession.Locations.GetLocationNameFromId(apID));
         }
 
         public override void Unload()
