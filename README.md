@@ -2,7 +2,7 @@
 I have NO idea what I'm doing
 ## To Do
 - [x] Make a connection between Celeste and AP
-- [ ] Send locations through mod
+- [x] Send locations through mod
 - [ ] Recieve items through the mod
 - [ ] Lock levels behind # of strawberry items received
 - [ ] Change amount of starwberries needed depending on options
